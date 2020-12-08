@@ -51,5 +51,15 @@ namespace ApiProvaSalutem.Infraestructure.Repositories
 
             return cliente;
         }
+
+        public void Delete(long idCliente)
+        {
+            _mongoContext.DSalutem_Cliente.DeleteOne(x => x.IdCliente == idCliente);
+        }
+
+        public IEnumerable<Cliente> GetAll(int skip = 0, int limit = 50)
+        {
+            return _mongoContext.DSalutem_Cliente.Find(x => true).Skip(skip).Limit(limit).ToList();
+        }
     }
 }

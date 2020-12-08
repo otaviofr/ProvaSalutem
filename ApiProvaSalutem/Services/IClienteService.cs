@@ -8,6 +8,8 @@ namespace ApiProvaSalutem.Services
     {
         void Save(ClienteDTO obj);
         void Update(ClienteDTO obj);
+        void Delete(long idCliente);
+        IEnumerable<ClienteViewModel> GetAll(int skip = 0, int limit = 50);
         IEnumerable<ClienteViewModel> GetById(long id, int skip, int limit);
     }
 }

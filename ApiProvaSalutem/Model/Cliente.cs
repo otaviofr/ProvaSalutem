@@ -24,9 +24,8 @@ namespace ApiProvaSalutem.Model
             Longitude = longitude;
         }
 
-        public void Update(string id, long idCliente, string cnpj, string razaoSocial, string latitude, string longitude)
+        public void Update(long idCliente, string cnpj, string razaoSocial, string latitude, string longitude)
         {
-            Id = id;
             IdCliente = idCliente;
             Cnpj = cnpj;
             RazaoSocial = razaoSocial;
