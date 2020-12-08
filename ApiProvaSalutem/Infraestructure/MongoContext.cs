@@ -28,5 +28,13 @@ namespace ApiProvaSalutem.Infraestructure
                 return database.GetCollection<Cliente>(nameof(Cliente));
             }
         }
+
+        public IMongoCollection<Vendedor> DSalutem_Vendedor
+        {
+            get
+            {
+                return database.GetCollection<Vendedor>(nameof(Vendedor));
+            }
+        }
     }
 }

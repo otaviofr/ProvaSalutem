@@ -19,7 +19,21 @@ namespace ApiProvaSalutem.Services
 
         public void Save(ClienteDTO obj)
         {
-            var existsClient = _clienteRepository.GetAll().ToList().FindAll(x => x.Cnpj == obj.Cnpj);
+            var cnpjs = obj.Cnpj;
+
+            if (cnpjs.Contains("."))
+            {
+                cnpjs = cnpjs.Replace(".", "");
+                cnpjs = cnpjs.Replace("/", "");
+                cnpjs = cnpjs.Replace("-", "");
+                cnpjs = Convert.ToUInt64(cnpjs).ToString(@"000\.000\.000\-00");
+            }
+            else
+            {
+                cnpjs = Convert.ToUInt64(cnpjs).ToString(@"000\.000\.000\-00");
+            }
+
+            var existsClient = _clienteRepository.GetAll().ToList().FindAll(x => x.Cnpj == cnpjs);
 
             if (existsClient.Count == 0 || existsClient == null)
             {

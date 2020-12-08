@@ -44,8 +44,13 @@ namespace ApiProvaSalutem
 
             services.AddControllers();
 
+            //Controller Cliente
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IClienteService, ClienteService>();
+
+            //Controller Vendedor
+            services.AddScoped<IVendedorRepository, VendedorRepository>();
+            services.AddScoped<IVendedorService, VendedorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
