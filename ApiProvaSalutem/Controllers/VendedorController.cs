@@ -75,5 +75,12 @@ namespace ApiProvaSalutem.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        [HttpPost("export-all")]
+        public IActionResult ExportSeller(long? idVendedor, string? nomeVendedor)
+        {
+            var content = _vendedorService.ExportSeller(idVendedor, nomeVendedor);
+            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Sellers.xlsx");
+        }
     }
 }

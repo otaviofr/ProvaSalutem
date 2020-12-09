@@ -11,5 +11,6 @@ namespace ApiProvaSalutem.Services
         void Delete(long idVendedor);
         IEnumerable<VendedorViewModel> GetAll(int skip = 0, int limit = 50);
         IEnumerable<VendedorViewModel> GetById(long id, int skip, int limit);
+        byte[] ExportSeller(long? idVendedor, string? nomeVendedor);
     }
 }

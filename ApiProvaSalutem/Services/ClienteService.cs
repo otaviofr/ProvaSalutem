@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using ApiProvaSalutem.DTO;
 using ApiProvaSalutem.Infraestructure.Repositories;
 using ApiProvaSalutem.Model;
 using ApiProvaSalutem.ViewModel;
+using ClosedXML.Excel;
 
 namespace ApiProvaSalutem.Services
 {
@@ -175,6 +179,53 @@ namespace ApiProvaSalutem.Services
                  });
         }
 
+        public byte[] ExportCostumer(long? idCliente, string? razaoSocial)
+        {
+            var clients = _clienteRepository.GetAll();
+
+            if (idCliente != null)
+            {
+                clients = _clienteRepository.GetAll().ToList().FindAll(x => x.IdCliente == idCliente);
+            }
+
+            if (razaoSocial != null)
+            {
+                if (razaoSocial != null)
+                    razaoSocial = PadronizaString(razaoSocial);
+
+                clients = _clienteRepository.GetAll().ToList().FindAll(x => PadronizaString(x.RazaoSocial).Contains(razaoSocial));
+            }
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Clientes");
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "Id Cliente";
+                worksheet.Cell(currentRow, 2).Value = "CNPJ";
+                worksheet.Cell(currentRow, 3).Value = "Razão Social";
+                worksheet.Cell(currentRow, 4).Value = "Latitude";
+                worksheet.Cell(currentRow, 5).Value = "Longitude";
+
+                foreach (var client in clients)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = client.IdCliente;
+                    worksheet.Cell(currentRow, 2).Value = client.Cnpj;
+                    worksheet.Cell(currentRow, 3).Value = client.RazaoSocial;
+                    worksheet.Cell(currentRow, 4).Value = client.Latitude;
+                    worksheet.Cell(currentRow, 5).Value = client.Longitude;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return content;
+                }
+            }
+        }
+
         public static bool IsCnpj(string cnpj)
         {
             string CNPJ = cnpj.Replace(".", "");
@@ -185,6 +236,21 @@ namespace ApiProvaSalutem.Services
                 return true;
             else
                 return false;
+        }
+
+        public static string PadronizaString(string s)
+        {
+            String normalizedString = s.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < normalizedString.Length; i++)
+            {
+                Char c = normalizedString[i];
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    stringBuilder.Append(c);
+            }
+
+            return stringBuilder.ToString().ToLower();
         }
     }
 }

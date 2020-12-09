@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using ApiProvaSalutem.DTO;
 using ApiProvaSalutem.Infraestructure.Repositories;
 using ApiProvaSalutem.Model;
 using ApiProvaSalutem.ViewModel;
+using ClosedXML.Excel;
 
 namespace ApiProvaSalutem.Services
 {
@@ -174,6 +178,53 @@ namespace ApiProvaSalutem.Services
                  });
         }
 
+        public byte[] ExportSeller(long? idVendedor, string? nomeVendedor)
+        {
+            var sellers = _vendedorRepository.GetAll();
+
+            if (idVendedor != null)
+            {
+                sellers = _vendedorRepository.GetAll().ToList().FindAll(x => x.IdVendedor == idVendedor);
+            }
+
+            if (nomeVendedor != null)
+            {
+                if (nomeVendedor != null)
+                    nomeVendedor = PadronizaString(nomeVendedor);
+
+                sellers = _vendedorRepository.GetAll().ToList().FindAll(x => PadronizaString(x.NomeVendedor).Contains(nomeVendedor));
+            }
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Vendedores");
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "Id Vendedor";
+                worksheet.Cell(currentRow, 2).Value = "CPF";
+                worksheet.Cell(currentRow, 3).Value = "Nome Vendedor";
+                worksheet.Cell(currentRow, 4).Value = "Latitude";
+                worksheet.Cell(currentRow, 5).Value = "Longitude";
+
+                foreach (var seller in sellers)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = seller.IdVendedor;
+                    worksheet.Cell(currentRow, 2).Value = seller.Cpf;
+                    worksheet.Cell(currentRow, 3).Value = seller.NomeVendedor;
+                    worksheet.Cell(currentRow, 4).Value = seller.Latitude;
+                    worksheet.Cell(currentRow, 5).Value = seller.Longitude;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return content;
+                }
+            }
+        }
+
         public static bool IsCpf(string cpf)
         {
             string CPF = cpf.Replace(".", "");
@@ -183,6 +234,21 @@ namespace ApiProvaSalutem.Services
                 return true;
             else
                 return false;
+        }
+
+        public static string PadronizaString(string s)
+        {
+            String normalizedString = s.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < normalizedString.Length; i++)
+            {
+                Char c = normalizedString[i];
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    stringBuilder.Append(c);
+            }
+
+            return stringBuilder.ToString().ToLower();
         }
     }
 }

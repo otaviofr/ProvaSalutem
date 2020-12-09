@@ -11,5 +11,6 @@ namespace ApiProvaSalutem.Services
         void Delete(long idCliente);
         IEnumerable<ClienteViewModel> GetAll(int skip = 0, int limit = 50);
         IEnumerable<ClienteViewModel> GetById(long id, int skip, int limit);
+        byte[] ExportCostumer(long? idCliente, string? razaoSocial);
     }
 }

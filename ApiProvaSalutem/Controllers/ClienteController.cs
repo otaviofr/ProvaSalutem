@@ -75,5 +75,12 @@ namespace ApiProvaSalutem.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        [HttpPost("export-all")]
+        public IActionResult ExportCostumer(long? idCliente, string? razaoSocial)
+        {
+            var content = _clienteService.ExportCostumer(idCliente, razaoSocial);
+            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Costumers.xlsx");
+        }
     }
 }
