@@ -11,16 +11,17 @@ namespace ApiProvaSalutem.Infraestructure
         private readonly IMongoDatabase database;
         public IConfigurationRoot Configuration { get; }
 
-        public MongoContext()
+        public MongoContext() // construtor Mongo Context
         {
+            //define configuração de conexão
             Configuration = new ConfigurationBuilder().
-
                 SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
             mongoClient = new MongoClient(Configuration["MongoDB:ConnectionString"]);
             database = mongoClient.GetDatabase(Configuration["MongoDB:Database"]);
         }
 
+        // cria a collection cliente no banco
         public IMongoCollection<Cliente> DSalutem_Cliente
         {
             get
@@ -29,6 +30,7 @@ namespace ApiProvaSalutem.Infraestructure
             }
         }
 
+        // cria a collection vendedor no banco
         public IMongoCollection<Vendedor> DSalutem_Vendedor
         {
             get

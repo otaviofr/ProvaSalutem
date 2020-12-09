@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApiProvaSalutem.Model
 {
+    //Classe modelo do cliente
     public class Cliente
     {
         [BsonIgnoreIfDefault]

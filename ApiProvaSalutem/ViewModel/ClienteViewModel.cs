@@ -1,5 +1,6 @@
 namespace ApiProvaSalutem.ViewModel
 {
+    //Classe ViewModel para busca do cliente
     public class ClienteViewModel
     {
         public string Id { get; set; }

@@ -1,5 +1,6 @@
 namespace ApiProvaSalutem.DTO
 {
+    //classe Data Transfer Object
     public class VendedorDTO
     {
         public string Id { get; set; }
