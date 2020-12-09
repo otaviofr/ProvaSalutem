@@ -148,7 +148,16 @@ namespace ApiProvaSalutem.Services
 
         public void Delete(long idVendedor)
         {
-            _vendedorRepository.Delete(idVendedor);
+            var existsSeller = _vendedorRepository.GetAll().ToList().FindAll(x => x.IdVendedor == idVendedor);
+
+            if (existsSeller.Count != 0)
+            {
+                _vendedorRepository.Delete(idVendedor);
+            }
+            else
+            {
+                throw new Exception("Erro: Cliente não encontrado!");
+            }
         }
 
         public IEnumerable<VendedorViewModel> GetAll(int skip = 0, int limit = 50)

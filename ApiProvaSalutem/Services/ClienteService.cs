@@ -149,7 +149,16 @@ namespace ApiProvaSalutem.Services
 
         public void Delete(long idCliente)
         {
-            _clienteRepository.Delete(idCliente);
+            var existsClient = _clienteRepository.GetAll().ToList().FindAll(x => x.IdCliente == idCliente);
+
+            if (existsClient.Count != 0)
+            {
+                _clienteRepository.Delete(idCliente);
+            }
+            else
+            {
+                throw new Exception("Erro: Cliente não encontrado!");
+            }
         }
 
         public IEnumerable<ClienteViewModel> GetAll(int skip = 0, int limit = 50)
