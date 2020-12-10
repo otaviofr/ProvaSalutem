@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import CustomerPageBar from '../../components/PageBars/CustomerPageBar';
 import api from '../../services/api';
 
+//cria interface Cliente
 interface Cliente {
   idCliente: number;
   cnpj: string;
@@ -12,6 +13,7 @@ interface Cliente {
   longitude: string;
 }
 
+//cria um novo objeot Cliente
 const blankCliente: Cliente = {
   idCliente: 0,
   cnpj: '',
@@ -20,6 +22,7 @@ const blankCliente: Cliente = {
   longitude: '',
 }
 
+//busca clientes cadastrados assim que a página carrega e mostra na tela
 const Customer: React.FC = () => {
   const [customers, setCustomers] = useState<Cliente[]>(() => {
     api.get('cliente/all').then((response) => {
@@ -38,6 +41,7 @@ const Customer: React.FC = () => {
     setCustomerModalIsVisible(false);
   }
 
+  //verificador para saber se é atualização de cliente
   const [currentCustomer, setCurrentCustomer] = useState<Cliente>(blankCliente);
   const [isEditing, setIsEditing] = useState(false);
   const editRow = (cliente: Cliente) => {
@@ -57,6 +61,7 @@ const Customer: React.FC = () => {
     }
   }
 
+  //cadastra novo cliente
   const handleSubmitNewCustomer = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -75,6 +80,7 @@ const Customer: React.FC = () => {
     }
   }
 
+  //atualiza cliente
   const handleSubmitCustomerUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -91,6 +97,7 @@ const Customer: React.FC = () => {
     }
   }
 
+  //deleta cliente
   const handleDeleteCustomer = async (idCliente: number) => {
     try {
       await api.delete(`cliente?idCliente=${idCliente}`);
@@ -108,7 +115,7 @@ const Customer: React.FC = () => {
   return (
     <>
       <Modal isOpen={customerModalIsVisible} toggle={toggleCustomerModal} size="lg">
-        <Form onSubmit={(e) => {
+        <Form onSubmit={(e) => { // verifica se é edição de cadastro
           console.log({ isEditing, newCustomer, currentCustomer });
           isEditing 
             ? handleSubmitCustomerUpdate(e) 

@@ -4,6 +4,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import SellerPageBar from "../../components/PageBars/SellerPageBar";
 import {  Card, CardBody, CardFooter, CardHeader, Col, Container, Form, FormGroup, Modal, Row, Table, Label, Input, Button} from "reactstrap";
 
+//cria interface Vendedor
 interface Vendedor {
     idVendedor: number;
   cpf: string;
@@ -12,6 +13,7 @@ interface Vendedor {
   longitude: string;
 }
 
+//cria um novo objeot Vendedor
 const blankVendedor: Vendedor = {
   idVendedor: 0,
   cpf: '',
@@ -20,6 +22,7 @@ const blankVendedor: Vendedor = {
   longitude: '',
 };
 
+//busca vendedores cadastrados assim que a página carrega e mostra na tela
 const Seller: React.FC = () => {
   const [sellers, setSellers] = useState<Vendedor[]>(() => {
     api.get('vendedor/all').then((response) => {
@@ -38,6 +41,7 @@ const Seller: React.FC = () => {
     setSellerModalIsVisible(false);
   }
 
+  //verificador para saber se é atualização de vendedor
   const [currentSeller, setCurrentSeller] = useState<Vendedor>(blankVendedor);
   const [isEditing, setIsEditing] = useState(false);
   const editRow = (vendedor: Vendedor) => {
@@ -57,6 +61,7 @@ const Seller: React.FC = () => {
     }
   }
 
+  //cadastra novo vendedor
   const handleSubmitNewSeller = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -75,6 +80,7 @@ const Seller: React.FC = () => {
     }
   }
 
+  //atualiza vendedor
   const handleSubmitSellerUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -91,6 +97,7 @@ const Seller: React.FC = () => {
     }
   }
 
+  //deleta vendedor
   const handleDeleteSeller = async (idVendedor: number) => {
     try {
       await api.delete(`vendedor?idVendedor=${idVendedor}`);
@@ -108,19 +115,19 @@ const Seller: React.FC = () => {
   return (
     <>
       <Modal isOpen={sellerModalIsVisible} toggle={toggleSellerModal} size="lg">
-        <Form onSubmit={(e) => {
+        <Form onSubmit={(e) => { // verifica se é edição de cadastro
           console.log({ isEditing, newSeller, currentSeller });
           isEditing 
             ? handleSubmitSellerUpdate(e) 
             : handleSubmitNewSeller(e)
           }}>
           <Card>
-            <CardHeader>Adicionar novo vendedor</CardHeader>
+            <CardHeader>Adicionar novo vendedor</CardHeader> 
             <CardBody>
               <Row>
                 <Col lg="2">
                   <FormGroup>
-                    <Label htmlFor="idVendedor">ID Vendedor</Label>
+                    <Label htmlFor="idVendedor">ID Vendedor</Label> // c
                     <Input 
                       type="number" 
                       placeholder="ID Vendedor" 
