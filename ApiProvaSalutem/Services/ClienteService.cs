@@ -257,10 +257,11 @@ namespace ApiProvaSalutem.Services
         //método que valida o formato e se é válido o cnpj
         private static bool IsCnpj(string cnpj)
         {
-            int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplicador2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] mult1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] mult2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
             cnpj = cnpj.Trim().Replace(".", "").Replace("-", "").Replace("/", "");
+
             if (cnpj.Length != 14)
                 return false;
 
@@ -268,9 +269,10 @@ namespace ApiProvaSalutem.Services
             int soma = 0;
 
             for (int i = 0; i < 12; i++)
-                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+                soma += int.Parse(tempCnpj[i].ToString()) * mult1[i];
 
             int resto = (soma % 11);
+
             if (resto < 2)
                 resto = 0;
             else
@@ -279,8 +281,9 @@ namespace ApiProvaSalutem.Services
             string digito = resto.ToString();
             tempCnpj = tempCnpj + digito;
             soma = 0;
+            
             for (int i = 0; i < 13; i++)
-                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+                soma += int.Parse(tempCnpj[i].ToString()) * mult2[i];
 
             resto = (soma % 11);
             if (resto < 2)
