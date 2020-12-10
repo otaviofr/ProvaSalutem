@@ -25,4 +25,10 @@ Para executar o backend:
     -Abra a pasta prova_salutem_front em outra janela do VS Code
     -Digite o comando 'npm run start' e aguarde o navegador abrir
 
-Após estes passos é só executar os testes desejados.
+Após estes passos é só executar os testes desejados. 
+
+OBS: 
+Eu não consegui realizar a parte de exportação no front end, e não realizei a parte de executar distribuição, por tempo mesmo, pois se a faço nao teria tempo de estudar pro frontend.
+Não era muito familiarizado com o frontend e precisei estudar para fazer este projeto.
+O backend funciona completo até onde foi desenvolvido, para testar a parte de exportação, tem uma rota disponível no swagger, pagina que abre quando
+roda o backend. É so colocar os possiveis filtros e realizar o download do arquivo. 
