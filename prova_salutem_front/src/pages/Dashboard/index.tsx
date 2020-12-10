@@ -11,14 +11,14 @@ const Dashboard: React.FC = () => {
       <Header />
       <Row className="mt-4">
         <Col lg="3">
-          <Button type="button" color="info" onClick={() => {
+          <Button type="button" color="secondary" onClick={() => {
             history.push('/customer');
           }}>
             Clientes
           </Button>
         </Col>
         <Col lg="4">
-          <Button type="button" color="info" onClick={() => {
+          <Button type="button" color="secondary" onClick={() => {
             history.push('/seller');
           }}>
             Vendedores
