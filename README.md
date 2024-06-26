@@ -1,5 +1,5 @@
 # ProvaSalutem
-O projeto foi desenvolvido utilizando .NET 3.1.402, estrutura MVC, Ract, Typescript, MongoDB, Bootstrap, Reactstrap, HTML, CSS. 
+O projeto foi desenvolvido utilizando .NET 3.1.402, estrutura MVC, Ract, Typescript, MongoDB, Bootstrap, React, HTML, CSS. 
 Para o BackEnd foi utilizado a estrutura MVC, linguagem C# e framework .NET 3.1.402.
 Para o FrontEnd foi utilizado HTML, React, Typescript. Para a estilização foi utilizado Bootstrap e Reactstrap.
 O projeto é uma API RESTFULL.
